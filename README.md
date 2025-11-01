@@ -1,0 +1,1 @@
+Solar systemIt is a planetary system consisting of a star, the "Sun", at its center, and other objects orbiting the Sun by gravity: eight planets (Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune), dwarf planets, comets, asteroids, and other small objects 
