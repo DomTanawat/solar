@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>ระบบสุริยะ</title>
+<h1>ระบบสุริยะ</h1>
 <style>
   body {
     margin: 0;
@@ -10,7 +11,6 @@
     background: radial-gradient(circle at center, #000015, #000);
     font-family: "Prompt", sans-serif;
     color: rgb(255, 255, 255);
-    background-color: #000; ;
   }
 
   /* 🌞 ดวงอาทิตย์ */
@@ -22,9 +22,10 @@
     height: 180px;
     background: radial-gradient(circle, #fff8a0, #ffbb33, #cc6600);
     border-radius: 50%;
-    box-shadow: 0 0 80px 35px rgba(255,180,0,0.3);
+    box-shadow: 0 0 60px 25px rgba(255,180,0,0.25);
     transform: translate(-50%, -50%);
     z-index: 10;
+    cursor: pointer;
   }
 
   /* 🪐 วงโคจร */
@@ -78,8 +79,8 @@
   /* 📘 กล่องข้อมูล */
   .info-box {
     position: fixed;
-    right: 30px;
-    top: 30px;
+    right: 20px;
+    top: 25px;
     width: 320px;
     background: rgba(10, 10, 20, 0.6);
     border: 1px solid rgba(255,255,255,0.2);
@@ -105,10 +106,11 @@
 </style>
 </head>
 <body>
-  <!-- ดาววิบวับ (จะถูกเติมด้วย JS) -->
+  <!-- ดาววิบวับ -->
   <div id="stars"></div>
 
-  <div class="sun"></div>
+  <!-- 🌞 ดวงอาทิตย์ -->
+  <div class="sun" id="sun"></div>
 
   <!-- วงโคจร -->
   <div class="orbit" style="width:220px; height:220px;"></div>
@@ -120,7 +122,7 @@
   <div class="orbit" style="width:1040px; height:1040px;"></div>
   <div class="orbit" style="width:1200px; height:1200px;"></div>
 
-  <!-- ดาว -->
+  <!-- ดาวเคราะห์ -->
   <div class="planet mercury" id="mercury"></div>
   <div class="planet venus" id="venus"></div>
   <div class="planet earth" id="earth"></div>
@@ -141,7 +143,7 @@
     const centerY = window.innerHeight / 2;
     const infoBox = document.getElementById('info-box');
 
-    // 🌟 สร้างดาวระยิบระยับ 300 ดวง
+    // 🌟 ดาวระยิบระยับ
     const starsContainer = document.getElementById('stars');
     for (let i = 0; i < 300; i++) {
       const star = document.createElement('div');
@@ -155,24 +157,27 @@
       starsContainer.appendChild(star);
     }
 
-    // 🪐 ข้อมูลดาวเคราะห์
+    // ☀️ ดวงอาทิตย์
+    const sun = {
+      id: 'sun',
+      name: 'ดวงอาทิตย์',
+      desc: 'ดวงอาทิตย์เป็นดาวฤกษ์ศูนย์กลางของระบบสุริยะ ให้พลังงานแสงและความร้อนแก่ดาวเคราะห์ทุกดวง',
+      size: '1,392,700 กม.',
+      type: 'ดาวฤกษ์ประเภท G2V (ดาวแคระเหลือง)',
+      temp: '5,500°C (พื้นผิว) / 15,000,000°C (แกนกลาง)',
+      image: 'https://www.pw.ac.th/emedia/media/science/lesa/2/sun/sun/sun.jpg'
+    };
+
+    // 🪐 ดาวเคราะห์
     const planets = [
-      { id: 'mercury', name: 'ดาวพุธ', radius: 110, speed: 0.008, desc: 'ดาวเคราะห์ที่ใกล้ดวงอาทิตย์ที่สุด มีพื้นผิวเต็มไปด้วยหลุมอุกกาบาต', 
-        size: '4,879 กม.', moons: 'ไม่มี', temp: '167°C', image: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg' },
-      { id: 'venus', name: 'ดาวศุกร์', radius: 160, speed: 0.006, desc: 'ดาวเคราะห์ที่ร้อนที่สุด ปกคลุมด้วยเมฆกรดกำมะถัน', 
-        size: '12,104 กม.', moons: 'ไม่มี', temp: '462°C', image: 'https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg' },
-      { id: 'earth', name: 'โลก', radius: 220, speed: 0.005, desc: 'ดาวเคราะห์แห่งชีวิต มีน้ำและชั้นบรรยากาศปกคลุม', 
-        size: '12,742 กม.', moons: '1 ดวง', temp: '15°C', image: 'https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg' },
-      { id: 'mars', name: 'ดาวอังคาร', radius: 280, speed: 0.004, desc: 'ดาวสีแดงที่มีภูเขาไฟสูงที่สุดในระบบสุริยะ', 
-        size: '6,779 กม.', moons: '2 ดวง', temp: '-60°C', image: 'https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg' },
-      { id: 'jupiter', name: 'ดาวพฤหัสบดี', radius: 360, speed: 0.003, desc: 'ดาวเคราะห์ที่ใหญ่ที่สุด มีพายุขนาดมหึมา “จุดแดงใหญ่”', 
-        size: '139,820 กม.', moons: '90+', temp: '-110°C', image: 'https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg' },
-      { id: 'saturn', name: 'ดาวเสาร์', radius: 460, speed: 0.0025, desc: 'ดาวที่มีวงแหวนสวยงามทำจากน้ำแข็งและหินอวกาศ', 
-        size: '116,460 กม.', moons: '80+', temp: '-140°C', image: 'https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg' },
-      { id: 'uranus', name: 'ดาวยูเรนัส', radius: 560, speed: 0.002, desc: 'หมุนเอียงเกือบ 90° ทำให้มีฤดูกาลสุดขั้ว', 
-        size: '50,724 กม.', moons: '27', temp: '-195°C', image: 'https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg' },
-      { id: 'neptune', name: 'ดาวเนปจูน', radius: 660, speed: 0.0015, desc: 'ดาวเคราะห์ที่ไกลที่สุด ลมแรงที่สุดในระบบสุริยะ', 
-        size: '49,244 กม.', moons: '14', temp: '-200°C', image: 'https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg' }
+      { id: 'mercury', name: 'ดาวพุธ', radius: 110, speed: 0.008, desc: 'ดาวเคราะห์ที่ใกล้ดวงอาทิตย์ที่สุด มีพื้นผิวเต็มไปด้วยหลุมอุกกาบาต', size: '4,879 กม.', moons: 'ไม่มี', temp: '167°C', image: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg' },
+      { id: 'venus', name: 'ดาวศุกร์', radius: 160, speed: 0.006, desc: 'ดาวเคราะห์ที่ร้อนที่สุด ปกคลุมด้วยเมฆกรดกำมะถัน', size: '12,104 กม.', moons: 'ไม่มี', temp: '462°C', image: 'https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg' },
+      { id: 'earth', name: 'โลก', radius: 220, speed: 0.005, desc: 'ดาวเคราะห์แห่งชีวิต มีน้ำและชั้นบรรยากาศปกคลุม', size: '12,742 กม.', moons: '1 ดวง', temp: '15°C', image: 'https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg' },
+      { id: 'mars', name: 'ดาวอังคาร', radius: 280, speed: 0.004, desc: 'ดาวสีแดงที่มีภูเขาไฟสูงที่สุดในระบบสุริยะ', size: '6,779 กม.', moons: '2 ดวง', temp: '-60°C', image: 'https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg' },
+      { id: 'jupiter', name: 'ดาวพฤหัสบดี', radius: 360, speed: 0.003, desc: 'ดาวเคราะห์ที่ใหญ่ที่สุด มีพายุขนาดมหึมา “จุดแดงใหญ่”', size: '139,820 กม.', moons: '90+', temp: '-110°C', image: 'https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg' },
+      { id: 'saturn', name: 'ดาวเสาร์', radius: 460, speed: 0.0025, desc: 'ดาวที่มีวงแหวนสวยงามทำจากน้ำแข็งและหินอวกาศ', size: '116,460 กม.', moons: '80+', temp: '-140°C', image: 'https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg' },
+      { id: 'uranus', name: 'ดาวยูเรนัส', radius: 560, speed: 0.002, desc: 'หมุนเอียงเกือบ 90° ทำให้มีฤดูกาลสุดขั้ว', size: '50,724 กม.', moons: '27', temp: '-195°C', image: 'https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg' },
+      { id: 'neptune', name: 'ดาวเนปจูน', radius: 660, speed: 0.0015, desc: 'ดาวเคราะห์ที่ไกลที่สุด ลมแรงที่สุดในระบบสุริยะ', size: '49,244 กม.', moons: '14', temp: '-200°C', image: 'https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg' }
     ];
 
     planets.forEach(p => p.angle = Math.random() * Math.PI * 2);
@@ -191,18 +196,23 @@
     animate();
 
     // 📘 คลิกเพื่อดูข้อมูล
+    function showInfo(data) {
+      infoBox.innerHTML = `
+        <img src="${data.image}" class="planet-image" alt="${data.name}">
+        <h2>${data.name}</h2>
+        <p>${data.desc}</p>
+        ${data.size ? `<p><b>ขนาด:</b> ${data.size}</p>` : ''}
+        ${data.type ? `<p><b>ประเภท:</b> ${data.type}</p>` : ''}
+        ${data.moons ? `<p><b>ดวงจันทร์:</b> ${data.moons}</p>` : ''}
+        ${data.temp ? `<p><b>อุณหภูมิ:</b> ${data.temp}</p>` : ''}
+      `;
+    }
+
+    document.getElementById('sun').addEventListener('click', () => showInfo(sun));
+
     planets.forEach(p => {
       const el = document.getElementById(p.id);
-      el.addEventListener("click", () => {
-        infoBox.innerHTML = `
-          <img src="${p.image}" class="planet-image" alt="${p.name}">
-          <h2>${p.name}</h2>
-          <p>${p.desc}</p>
-          <p><b>ขนาด:</b> ${p.size}</p>
-          <p><b>ดวงจันทร์:</b> ${p.moons}</p>
-          <p><b>อุณหภูมิ:</b> ${p.temp}</p>
-        `;
-      });
+      el.addEventListener("click", () => showInfo(p));
     });
   </script>
 </body>
